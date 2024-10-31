@@ -17,7 +17,7 @@ const places = [
 		lat: 48.8584,
 		lng: 2.2945,
 		description: "Iconic iron tower in Paris",
-		image: "/images.png?height=100&width=200",
+		image: "/placeholder.svg?height=100&width=200",
 	},
 	{
 		id: 2,
@@ -25,7 +25,7 @@ const places = [
 		lat: 40.6892,
 		lng: -74.0445,
 		description: "Famous statue in New York Harbor",
-		image: "/images.png?height=100&width=200",
+		image: "/placeholder.svg?height=100&width=200",
 	},
 	{
 		id: 3,
@@ -33,7 +33,7 @@ const places = [
 		lat: 27.1751,
 		lng: 78.0421,
 		description: "Beautiful mausoleum in Agra, India",
-		image: "/images.png?height=100&width=200",
+		image: "/placeholder.svg?height=100&width=200",
 	},
 ];
 
