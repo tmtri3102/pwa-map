@@ -1,101 +1,157 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search, MapPin, Play } from "lucide-react";
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+interface Location {
+	id: number; // Added id property
+	title: string; // Added title property
+	x: number; // This could represent longitude
+	y: number; // This could represent latitude
+	description: string;
+}
+// Simulating location data
+const locations = [
+	{
+		id: 1,
+		title: "Eiffel Tower",
+		x: 30,
+		y: 40,
+		description: "Iconic iron tower in Paris",
+	},
+	{
+		id: 2,
+		title: "Statue of Liberty",
+		x: 70,
+		y: 60,
+		description: "Famous statue in New York Harbor",
+	},
+	{
+		id: 3,
+		title: "Taj Mahal",
+		x: 50,
+		y: 80,
+		description: "Beautiful mausoleum in Agra, India",
+	},
+];
+
+export default function MapApp() {
+	const [searchTerm, setSearchTerm] = useState("");
+	const [selectedLocation, setSelectedLocation] = useState<Location | null>(
+		null
+	);
+	const [progress, setProgress] = useState(0);
+
+	const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		// Implement search functionality here
+		console.log("Searching for:", searchTerm);
+	};
+
+	const handlePinClick = (location: Location) => {
+		setSelectedLocation(location);
+		setProgress(0);
+	};
+
+	const handlePlay = () => {
+		// Simulate audio progress
+		let currentProgress = 0;
+		const interval = setInterval(() => {
+			currentProgress += 1;
+			setProgress(currentProgress);
+			if (currentProgress >= 100) {
+				clearInterval(interval);
+			}
+		}, 100);
+	};
+
+	const locations: Location[] = [
+		{ id: 1, title: "Location 1", x: 10, y: 20, description: "Description 1" },
+		{ id: 2, title: "Location 2", x: 30, y: 40, description: "Description 2" },
+		// Add more locations as needed
+	];
+
+	return (
+		<div className='h-screen flex flex-col'>
+			<div className='p-4 bg-white shadow-md z-10'>
+				<form
+					onSubmit={handleSearch}
+					className='flex items-center'
+				>
+					<Input
+						type='text'
+						placeholder='Search places...'
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+						className='flex-grow'
+					/>
+					<Button
+						type='submit'
+						size='icon'
+						className='ml-2'
+					>
+						<Search className='w-4 h-4' />
+					</Button>
+				</form>
+			</div>
+			<div className='flex-grow relative'>
+				<div className='w-full h-full bg-red-500 relative'>
+					{/* <img
+						src='/images.png?height=1000&width=1000'
+						alt='Map Placeholder'
+						className='w-full h-full object-cover'
+					/> */}
+					{locations.map((location) => (
+						<Button
+							key={location.id}
+							variant='outline'
+							size='icon'
+							className='absolute p-1 rounded-full'
+							style={{
+								left: `${location.x}%`,
+								top: `${location.y}%`,
+								transform: "translate(-50%, -50%)",
+							}}
+							onClick={() => handlePinClick(location)}
+						>
+							<MapPin className='w-4 h-4' />
+						</Button>
+					))}
+				</div>
+			</div>
+			{selectedLocation && (
+				<Card className='fixed bottom-4 left-4 right-4 z-[1000] max-w-md mx-auto'>
+					<CardContent className='p-2 flex items-center'>
+						<img
+							src={`/images.png?height=60&width=60`}
+							alt={selectedLocation.title}
+							className='w-15 h-15 object-cover rounded-md mr-3'
+						/>
+						<div className='flex-grow mr-3'>
+							<h3 className='font-semibold text-sm line-clamp-1'>
+								{selectedLocation.title}
+							</h3>
+							<p className='text-xs text-muted-foreground line-clamp-1'>
+								{selectedLocation.description}
+							</p>
+						</div>
+						<Button
+							size='icon'
+							variant='ghost'
+							onClick={handlePlay}
+						>
+							<Play className='w-6 h-6' />
+						</Button>
+					</CardContent>
+					<div
+						className='h-1 bg-primary transition-all duration-100 ease-in-out'
+						style={{ width: `${progress}%` }}
+					/>
+				</Card>
+			)}
+		</div>
+	);
 }
